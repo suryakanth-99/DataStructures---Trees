@@ -1,0 +1,43 @@
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+
+def CreateBST(root , value):
+    if root is None:
+        return Node(value)
+    if value<root.data:
+        root.left=CreateBST(root.left,value)
+    if value>root.data :
+        root.right=CreateBST(root.right,value)
+    return root
+
+
+def printInorder(root):
+    if not root:
+        return
+    printInorder(root.left)
+    print(root.data, end=' ')
+    printInorder(root.right)
+
+
+def heightofBST(root):
+    if root is None:
+        return -1
+    left_height = heightofBST(root.left)
+    right_height = heightofBST(root.right)
+    return max(left_height, right_height) + 1
+
+
+if __name__ == '__main__':
+    root=None
+    n=int(input())
+    arr=[int(i) for i in input().split()]
+    for i in range(n):
+        root=CreateBST(root,arr[i])
+    printInorder(root)
+    max_height=heightofBST(root)
+    print()
+    print(max_height)
