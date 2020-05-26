@@ -1,0 +1,32 @@
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+
+def CreateBST(root , value):
+    if root is None:
+        return Node(value)
+    if value<root.data:
+        root.left=CreateBST(root.left,value)
+    if value>root.data :
+        root.right=CreateBST(root.right,value)
+    return root
+
+def leafcount(root):
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    return leafcount(root.left) + leafcount(root.right)
+
+
+if __name__ == '__main__':
+    root=None
+    n=int(input())
+    arr=[int(i) for i in input().split()]
+    for i in range(n):
+        root=CreateBST(root,arr[i])
+
+    print(leafcount(root))
