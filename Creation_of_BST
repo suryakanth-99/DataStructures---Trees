@@ -1,0 +1,48 @@
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+class BinarysearchTree:
+    def __init__(self):
+        self.root=None
+
+    def insert(self,data):
+        if self.root is None:
+            newnode=Node(data)
+            self.root=newnode
+        else:
+            self.append(self.root,data)
+
+    def append(self , root , data):
+        if data<root.data:
+            if root.left is None:
+                newnode=Node(data)
+                root.left=newnode
+            else:
+                self.append(root.left,data)
+        else:
+            if root.right==None:
+                newnode=Node(data)
+                root.right=newnode
+            else:
+                self.append(root.right,data)
+
+    def printinorder(self):
+        self.inorder(self.root)
+
+    def inorder(self,temp):
+        if not temp:
+            return
+        self.inorder(temp.left)
+        print(temp.data)
+        self.inorder(temp.right)
+
+if __name__ == '__main__' :
+    tree=BinarysearchTree()
+    n=int(input())
+    arr=[int(i) for i in input().split()]
+    for i in range(n):
+        tree.insert(arr[i])
+    tree.printinorder()
