@@ -1,0 +1,54 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def inorder( root ):
+    if root:
+        print(root.data, end=' ')
+        inorder(root.left)
+        inorder(root.right)
+
+
+def check_for_bst( root , min_value ,max_value ) :
+    if root is None:
+        return True
+    elif  root.data > min_value and root.data < max_value and check_for_bst(root.left,min_value,root.data) and check_for_bst(root.right , root.data , max_value ):
+        return True
+    return False
+
+
+if __name__ == '__main__' :
+    root = None
+    min_value = -100
+    max_value = 100
+    n = int(input())
+    l = list(input().rstrip().split())
+    i = 0
+    treenodes = {}
+    while n > 0:
+        parent = int(l[i])
+        child = int(l[i+1])
+        pos = l[i+2]
+        if i == 0:
+            root = Node(parent)
+            treenodes[parent] = root
+        parentnode = treenodes[parent]
+        childnode = Node(child)
+        if pos == 'L':
+            parentnode.left = childnode
+        else:
+            parentnode.right=childnode
+        treenodes[child]=childnode
+
+        i=i+3
+        n=n-1
+    inorder(root)
+    print()
+    isbst= check_for_bst(root,min_value,max_value)
+    if isbst:
+        print(1)
+    else:
+        print(0)
