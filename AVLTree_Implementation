@@ -1,0 +1,100 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.height = 1
+
+
+def getheight(node):
+    if node is None:
+        return 0
+    return node.height
+
+
+def leftrotate(root):
+    root_right = root.right
+    left_child_of_root_right = root_right.left
+    root_right.left = root
+    root.right = left_child_of_root_right
+    # updating the heights of nodes
+    root.height = max(getheight(root.left), getheight(root.left)) + 1
+    root_right.height = max(getheight(root_right.left), getheight(root_right.right)) + 1
+    return root_right
+
+
+def leftrightrotate(root):
+    if root is None:return
+    root.left = leftrotate(root.left)
+    return rightrotate(root)
+
+
+def rightleftrotate(root):
+    if root is None:return
+    root.right = rightrotate(root.right)
+    return leftrotate(root)
+
+
+def rightrotate(root):
+    root_left = root.left
+    right_child_of_root_left = root_left.right
+    root_left.right = root
+    root.left = right_child_of_root_left
+    #updating the heights of nodes
+    root.height = max(getheight(root.left), getheight(root.right)) +1
+    root_left.height = max(getheight(root_left.left), getheight(root_left.right)) + 1
+    return root_left
+
+
+def createavltree(root, data):
+    if root is None:
+        root = Node(data)
+        return root
+    if data < root.data:
+        root.left = createavltree(root.left, data)
+    elif data > root.data:
+        root.right = createavltree(root.right, data)
+    root.height = max(getheight(root.left), getheight(root.right)) + 1
+    balancefactor = getheight(root.left) - getheight(root.right)
+    if balancefactor < -1 and data > root.right.data:
+        #right right insertion
+        # do left rotation
+        return leftrotate(root)
+    if balancefactor < -1 and data < root.right.data:
+        # right insertion then left insertion
+        # first perform right rotation it looks like right right insertion
+        # then perform left rotation
+        return rightleftrotate(root)
+    if balancefactor > 1 and data < root.left.data:
+        # left left insertion
+        # perform right rotation
+        return rightrotate(root)
+    if balancefactor > 1 and data > root.left.data:
+        # left insertion then right insertion
+        # first perform left rotation looks like left left insertion
+        # then perform right rotation
+        return leftrightrotate(root)
+    return root
+
+
+def levelorder(root):
+    q=[]
+    if root is None:
+        return
+    q.append(root)
+    while(len(q)>0):
+        print(q[0].data , end=' ')
+        root=q.pop(0)
+        if root.left is not None:
+            q.append(root.left)
+        if root.right is not None:
+            q.append(root.right)
+
+
+if __name__ == '__main__':
+    root = None
+    #n = int(input())
+    lst = [int(i) for i in input().split()]
+    for i in range(len(lst)):
+        root = createavltree(root, lst[i])
+    levelorder(root)
