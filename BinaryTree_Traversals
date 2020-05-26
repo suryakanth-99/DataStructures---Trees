@@ -1,0 +1,75 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.data , end=' ')
+        inorder(root.right)
+def preorder(root):
+    if root:
+        print(root.data , end=' ')
+        preorder(root.left)
+        preorder(root.right)
+
+def postorder(root):
+    if root:
+        postorder(root.left)
+        postorder(root.right)
+        print(root.data, end=' ')
+
+
+def levelorder(root):
+    q=[]
+    if root is None:
+        return
+    q.append(root)
+    while(len(q)>0):
+        print(q[0].data , end=' ')
+        root=q.pop(0)
+        if root.left is not None:
+            q.append(root.left)
+        if root.right is not None:
+            q.append(root.right)
+
+
+if __name__ == '__main__':
+    root = None
+    min_value = -100
+    max_value = 100
+    n = int(input())
+    l = list(input().rstrip().split())
+    i = 0
+    treenodes = {}
+    while n > 0:
+        parent = int(l[i])
+        child = int(l[i+1])
+        pos = l[i+2]
+        if i == 0:
+            root = Node(parent)
+            treenodes[parent] = root
+        parentnode = treenodes[parent]
+        childnode = Node(child)
+        if pos == 'L':
+            parentnode.left = childnode
+        else:
+            parentnode.right=childnode
+        treenodes[child]=childnode
+
+        i=i+3
+        n=n-1
+    print("inorder traversal is : ",end='')
+    inorder(root)
+    print()
+    print("preorder traversal is : ",end='')
+    preorder(root)
+    print()
+    print("postorder traversal is : ",end='')
+    postorder(root)
+    print()
+    print("levelorder traversal is : ",end='')
+    levelorder(root)
