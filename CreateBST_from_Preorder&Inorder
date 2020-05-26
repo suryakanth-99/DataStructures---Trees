@@ -1,0 +1,36 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def treeconstruct(inorder, preorder, start, end):
+    if start > end:
+        return None
+    node = Node(preorder[treeconstruct.index])
+    treeconstruct.index += 1
+    if start == end:
+        return node
+    inorder_root_index = inorder.index(node.data)
+    node.left = treeconstruct(inorder, preorder, start, inorder_root_index-1)
+    node.right = treeconstruct(inorder, preorder, inorder_root_index+1, end)
+    return node
+
+
+def printinorder(root):
+    if root:
+        printinorder(root.left)
+        print(root.data, end=' ')
+        printinorder(root.right)
+
+
+if __name__ == '__main__':
+    root = None
+    inorder = list(map(int, input().rstrip().split()))
+    preorder = list(map(int, input().rstrip().split()))
+    treeconstruct.index = 0
+    print(preorder[treeconstruct.index])
+    root = treeconstruct(inorder, preorder, 0, len(preorder)-1)
+
+    printinorder(root)
