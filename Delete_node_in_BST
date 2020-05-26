@@ -1,0 +1,76 @@
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+def CreateBST(root , value):
+    if root is None:
+        return Node(value)
+    if value<root.data:
+        root.left=CreateBST(root.left,value)
+    if value>root.data :
+        root.right=CreateBST(root.right,value)
+    return root
+
+
+def printInorder(root):
+    if not root:
+        return
+    printInorder(root.left)
+    print(root.data , end=' ')
+    printInorder(root.right)
+
+def preorder(root):
+    if root:
+        print(root.data , end=' ')
+        preorder(root.left)
+        preorder(root.right)
+
+def postorder(root):
+    if root:
+        postorder(root.left)
+        postorder(root.right)
+        print(root.data, end=' ')
+
+
+def delete(root,value):
+    if root is None:
+        return root
+    if value < root.data:
+        root.left = delete(root.left,value)
+    elif value>root.data:
+        root.right = delete(root.right,value)
+    else:
+        if root.left is None:
+            temp=root.right
+            root=None
+            return temp
+        if root.right is None:
+            temp=root.left
+            root=None
+            return temp
+        else:
+            temp=root.right
+            while(temp.left is not None):
+                temp=temp.left
+            root.data=temp.data
+            root.right=delete(root.right,temp.data)
+    return root
+
+
+if __name__ == '__main__':
+    root=None
+    n=int(input())
+    arr=[int(i) for i in input().split()]
+    for i in range(n):
+        root=CreateBST(root,arr[i])
+    printInorder(root)
+
+   # root = delete(root,1)
+    print()
+    printInorder(root)
+    print()
+    preorder(root)
+    print()
+    postorder(root)
